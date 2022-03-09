@@ -6,18 +6,23 @@ import {
 	IonItemOptions,
 	IonItemSliding,
 	IonLabel,
-	IonThumbnail,
 } from '@ionic/react';
 
 import { trashOutline } from 'ionicons/icons';
 
 export interface PlayerProps {
-	name: string;
+	firstName: string;
+	lastName: string;
 	description?: string;
 	score: number;
 }
 
-export function Player({ name, description, score }: PlayerProps) {
+export function Player({
+	firstName,
+	lastName,
+	description,
+	score,
+}: PlayerProps) {
 	return (
 		<IonItemSliding>
 			<IonItemOptions side="start">
@@ -37,7 +42,8 @@ export function Player({ name, description, score }: PlayerProps) {
 				</IonAvatar>
 				<IonLabel>
 					<h2>
-						{name} <span style={{ color: 'GrayText' }}>- (</span>
+						{firstName} {lastName}
+						<span style={{ color: 'GrayText' }}>- (</span>
 						<span style={{ color: '#29c233' }}>{score}</span>
 						<span style={{ color: 'GrayText' }}>)</span>
 					</h2>

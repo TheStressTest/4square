@@ -4,12 +4,10 @@ import {
 	IonToolbar,
 	IonTitle,
 	IonInput,
-	IonLabel,
 	IonItem,
 	IonImg,
 	IonTextarea,
 	IonItemDivider,
-	IonPage,
 } from '@ionic/react';
 import { PlayerProps } from './Player';
 import { Camera, CameraResultType } from '@capacitor/camera';
@@ -39,16 +37,24 @@ export function AddPlayerForm({
 	setPlayers,
 	players,
 }: AddPlayerFormProps) {
-	const { register, control, handleSubmit } = useForm();
+	const { control, handleSubmit } = useForm({
+		defaultValues: {
+			description: 'No Description',
+			firstName: null,
+			lastName: null,
+		},
+	});
 
 	const onSubmit = (data: any) => {
 		setPlayers([
 			...players,
-			{
-				name: data.firstName + ' ' + data.lastName,
-				score: 2,
-				description: data.description || 'No Description',
-			},
+			// {
+			// 	firstName: String(data.firstName),
+			// 	lastName: String(data.lastName),
+			// 	score: 2,
+			// 	description: String(data.description),
+			// } as PlayerProps,
+			data,
 		]);
 		setModalOpen(false);
 	};
@@ -81,13 +87,6 @@ export function AddPlayerForm({
 						rules={{ required: true }}
 						control={control}
 					></Controller>
-					{/* <IonInput
-						{...register('firstName', {
-							required: true,
-							pattern: /[a-zA-Z]/,
-						})}
-						placeholder="First Name"
-					></IonInput> */}
 				</IonItem>
 
 				<IonItem>
@@ -102,10 +101,6 @@ export function AddPlayerForm({
 						rules={{ required: true }}
 						control={control}
 					/>
-					{/* <IonInput
-						{...register('lastName', { required: true })}
-						placeholder="Last Name"
-					></IonInput> */}
 				</IonItem>
 				<IonItemDivider />
 
@@ -120,10 +115,6 @@ export function AddPlayerForm({
 						name="description"
 						control={control}
 					/>
-					{/* <IonTextarea
-						{...register('description')}
-						placeholder="Type description here..."
-					></IonTextarea> */}
 				</IonItem>
 
 				<IonButton expand="block" type="submit">
