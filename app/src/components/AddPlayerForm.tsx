@@ -12,7 +12,7 @@ import {
 } from '@ionic/react';
 import { PlayerProps } from './Player';
 import { Camera, CameraResultType } from '@capacitor/camera';
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 export interface AddPlayerFormProps {
 	setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,9 +37,23 @@ export function AddPlayerForm({
 	setPlayers,
 	players,
 }: AddPlayerFormProps) {
-	let [firstName, setFirstName] = useState<string>();
-	let [lastName, setLastName] = useState<string>();
-	let [description, setDescription] = useState<string>();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
+	const onSubmit = (data: any) => {
+		setPlayers([
+			...players,
+			{
+				name: data.firstName + ' ' + data.lastName,
+				score: 2,
+				description: data.description || 'No Description',
+			},
+		]);
+		setModalOpen(false);
+	};
 
 	return (
 		<>
@@ -48,7 +62,7 @@ export function AddPlayerForm({
 					<IonTitle>Add Player</IonTitle>
 				</IonToolbar>
 			</IonHeader>
-			<form>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<IonImg
 					src={
 						process.env.PUBLIC_URL +
@@ -59,47 +73,30 @@ export function AddPlayerForm({
 
 				<IonItem>
 					<IonInput
-						value={firstName}
+						{...register('firstName', {
+							required: true,
+							pattern: /[a-zA-Z]/,
+						})}
 						placeholder="First Name"
-						onIonChange={(e) => setFirstName(e.detail.value!)}
-						required
 					></IonInput>
 				</IonItem>
 
 				<IonItem>
 					<IonInput
-						required={true}
+						{...register('lastName', { required: true })}
 						placeholder="Last Name"
-						onIonChange={(e) => setLastName(e.detail.value!)}
 					></IonInput>
 				</IonItem>
-				<IonItemDivider></IonItemDivider>
+				<IonItemDivider />
 
 				<IonItem>
 					<IonTextarea
+						{...register('description')}
 						placeholder="Type description here..."
-						onIonChange={(e) => setDescription(e.detail.value!)}
 					></IonTextarea>
 				</IonItem>
 
-				<IonButton
-					expand="block"
-					type="submit"
-					onClick={() => {
-						setModalOpen(false);
-						setPlayers([
-							...players,
-							{
-								name:
-									(firstName || 'First') +
-									' ' +
-									(lastName || 'Last'),
-								score: 2,
-								description: description || 'No Description',
-							},
-						]);
-					}}
-				>
+				<IonButton expand="block" type="submit">
 					Submit
 				</IonButton>
 			</form>
