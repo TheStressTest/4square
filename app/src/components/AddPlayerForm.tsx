@@ -9,10 +9,12 @@ import {
 	IonImg,
 	IonTextarea,
 	IonItemDivider,
+	IonPage,
 } from '@ionic/react';
 import { PlayerProps } from './Player';
 import { Camera, CameraResultType } from '@capacitor/camera';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import React from 'react';
 
 export interface AddPlayerFormProps {
 	setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,11 +39,7 @@ export function AddPlayerForm({
 	setPlayers,
 	players,
 }: AddPlayerFormProps) {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const { register, control, handleSubmit } = useForm();
 
 	const onSubmit = (data: any) => {
 		setPlayers([
@@ -72,28 +70,60 @@ export function AddPlayerForm({
 				<IonItemDivider />
 
 				<IonItem>
-					<IonInput
+					<Controller
+						render={({ field: { onChange } }) => (
+							<IonInput
+								placeholder="First Name"
+								onIonChange={onChange}
+							/>
+						)}
+						name="firstName"
+						rules={{ required: true }}
+						control={control}
+					></Controller>
+					{/* <IonInput
 						{...register('firstName', {
 							required: true,
 							pattern: /[a-zA-Z]/,
 						})}
 						placeholder="First Name"
-					></IonInput>
+					></IonInput> */}
 				</IonItem>
 
 				<IonItem>
-					<IonInput
+					<Controller
+						render={({ field: { onChange } }) => (
+							<IonInput
+								placeholder="Last Name"
+								onIonChange={onChange}
+							/>
+						)}
+						name="lastName"
+						rules={{ required: true }}
+						control={control}
+					/>
+					{/* <IonInput
 						{...register('lastName', { required: true })}
 						placeholder="Last Name"
-					></IonInput>
+					></IonInput> */}
 				</IonItem>
 				<IonItemDivider />
 
 				<IonItem>
-					<IonTextarea
+					<Controller
+						render={({ field: { onChange } }) => (
+							<IonTextarea
+								placeholder="Type description here..."
+								onIonChange={onChange}
+							/>
+						)}
+						name="description"
+						control={control}
+					/>
+					{/* <IonTextarea
 						{...register('description')}
 						placeholder="Type description here..."
-					></IonTextarea>
+					></IonTextarea> */}
 				</IonItem>
 
 				<IonButton expand="block" type="submit">
