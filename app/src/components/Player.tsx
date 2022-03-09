@@ -10,7 +10,12 @@ export function Player({ name, description, score }: PlayerProps) {
 	return (
 		<IonItem>
 			<IonAvatar slot="start">
-				<img src="https://yt3.ggpht.com/ytc/AKedOLTCgtF1-8ytsg5o2hV8-8MqlfpRGaGVPZptv1ySwA=s88-c-k-c0x00ffffff-no-rj" />
+				<img
+					src={
+						process.env.PUBLIC_URL +
+						'/assets/chooseProfilePicture.png'
+					}
+				/>
 			</IonAvatar>
 			<IonLabel>
 				<h2>
