@@ -1,0 +1,8 @@
+server:
+    port: 8080
+
+database:
+    user: USERNAME
+    password: PASSWORD
+    port: 5432
+    address: 127.0.0.1

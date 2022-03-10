@@ -6,3 +6,4 @@ services:
     frontend:
 
     database:
+        image: postgres
