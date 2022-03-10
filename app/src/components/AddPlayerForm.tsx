@@ -10,7 +10,7 @@ import {
 	IonItemDivider,
 } from '@ionic/react';
 import { PlayerProps } from './Player';
-import { Camera, CameraResultType } from '@capacitor/camera';
+import { Input } from './Input';
 import { Controller, useForm } from 'react-hook-form';
 import React from 'react';
 
@@ -19,18 +19,6 @@ export interface AddPlayerFormProps {
 	setPlayers: React.Dispatch<React.SetStateAction<PlayerProps[]>>;
 	players: PlayerProps[];
 }
-
-const takePicture = async () => {
-	const image = await Camera.getPhoto({
-		quality: 90,
-		allowEditing: true,
-		resultType: CameraResultType.Uri,
-	});
-
-	var imageUrl = image.webPath;
-
-	return imageUrl;
-};
 
 export function AddPlayerForm({
 	setModalOpen,
@@ -75,33 +63,20 @@ export function AddPlayerForm({
 				/>
 				<IonItemDivider />
 
-				<IonItem>
-					<Controller
-						render={({ field: { onChange } }) => (
-							<IonInput
-								placeholder="First Name"
-								onIonChange={onChange}
-							/>
-						)}
-						name="firstName"
-						rules={{ required: true }}
-						control={control}
-					></Controller>
-				</IonItem>
+				<Input
+					control={control}
+					name="firstName"
+					placeholder="First Name"
+					required={true}
+				/>
 
-				<IonItem>
-					<Controller
-						render={({ field: { onChange } }) => (
-							<IonInput
-								placeholder="Last Name"
-								onIonChange={onChange}
-							/>
-						)}
-						name="lastName"
-						rules={{ required: true }}
-						control={control}
-					/>
-				</IonItem>
+				<Input
+					name="lastName"
+					control={control}
+					required={true}
+					placeholder="Last Name"
+				/>
+
 				<IonItemDivider />
 
 				<IonItem>
