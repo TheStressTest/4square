@@ -13,6 +13,7 @@ func Init() {
 	playerGroup := app.Group("/players")
 
 	playerGroup.Post("/createPlayer", playerPath.AddPlayer)
+	playerGroup.Get("/queryPlayers", playerPath.GetPlayers)
 
 	err := app.Listen(":8080")
 

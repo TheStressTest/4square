@@ -1,7 +1,11 @@
 package main
 
-import api "backend/api"
+import (
+	"backend/api"
+	"backend/database"
+)
 
 func main() {
+	database.Migrate()
 	api.Init()
 }

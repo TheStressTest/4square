@@ -12,3 +12,7 @@ type Config struct {
 		Address string
 	}
 }
+
+func GetConfig() {
+
+}
