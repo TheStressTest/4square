@@ -1,7 +1,10 @@
 package api
 
 import (
-	playerPath "backend/routes/players"
+	"backend/database"
+	"backend/routes/game"
+	"backend/routes/players"
+	"fmt"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,12 +15,23 @@ func Init() {
 
 	playerGroup := app.Group("/players")
 
-	playerGroup.Post("/createPlayer", playerPath.AddPlayer)
-	playerGroup.Get("/queryPlayers", playerPath.GetPlayers)
-	playerGroup.Patch("/updatePlayer", playerPath.EditPlayer)
-	playerGroup.Delete("/deletePlayer", playerPath.RemovePlayer)
+	playerGroup.Post("/createPlayer", players.AddPlayer)
+	playerGroup.Get("/queryPlayers", players.GetPlayers)
+	playerGroup.Delete("/deletePlayer", players.RemovePlayer)
 
-	err := app.Listen(":8080")
+	gameGroup := app.Group("/games")
+
+	gameGroup.Post("/createGame", game.AddGame)
+
+	log.Println("Getting port from config...")
+
+	config, err := database.GetConfig()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = app.Listen(fmt.Sprintf(":%d", config.Server.Port))
 
 	if err != nil {
 		log.Fatal(err)
