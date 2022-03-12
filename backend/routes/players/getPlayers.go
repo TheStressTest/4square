@@ -8,11 +8,9 @@ import (
 )
 
 func GetPlayers(ctx *fiber.Ctx) error {
-	// result := map[string]interface{}{}
 	var results []models.Player
 
 	database.DB.Find(&results)
 
-	// database.DB.Model(&models.Player{})
 	return ctx.JSON(results)
 }

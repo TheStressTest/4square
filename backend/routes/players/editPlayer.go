@@ -1,7 +1,13 @@
 package players
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"backend/database"
+	"backend/models"
 
-func EditPlayer(*fiber.Ctx) error {
+	"github.com/gofiber/fiber/v2"
+)
+
+func EditPlayer(ctx *fiber.Ctx) error {
+	database.DB.Find(&models.Player{}, 14).Updates(ctx.Request().Header)
 	return nil
 }

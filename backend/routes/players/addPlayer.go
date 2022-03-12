@@ -10,8 +10,8 @@ import (
 func AddPlayer(ctx *fiber.Ctx) error {
 
 	if err := database.DB.Create(&models.Player{
-		FirstName: ctx.Get("firstName"),
-		LastName: ctx.Get("lastName"),
+		FirstName: ctx.Get("first_name"),
+		LastName: ctx.Get("last_name"),
 		Description: ctx.Get("description"),
 		Instagram: ctx.Get("instagram"),
 	}).Error; err != nil {

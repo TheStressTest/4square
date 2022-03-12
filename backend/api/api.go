@@ -14,6 +14,7 @@ func Init() {
 
 	playerGroup.Post("/createPlayer", playerPath.AddPlayer)
 	playerGroup.Get("/queryPlayers", playerPath.GetPlayers)
+	playerGroup.Patch("/updatePlayer", playerPath.EditPlayer)
 
 	err := app.Listen(":8080")
 
