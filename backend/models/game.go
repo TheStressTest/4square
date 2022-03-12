@@ -7,7 +7,7 @@ import (
 )
 
 type Game struct {
-	gorm.Model
+	gorm.Model `json:"-"`
 	Time time.Time `gorm:"not null;"`
 	Rounds int `gorm:"not null;"`
 	Title string
