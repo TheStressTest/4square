@@ -2,11 +2,10 @@ package models
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Game struct {
-	gorm.Model `json:"-"`
+	ID uint `gorm:"primaryKey;autoIncrement" json:"id"`
+
 	Time time.Time `gorm:"not null;" json:"time"`
 }

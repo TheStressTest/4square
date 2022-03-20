@@ -1,11 +1,7 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
-
 type Out struct {
-	gorm.Model `json:"-"`
+	ID uint `gorm:"primaryKey;autoIncrement" json:"id"`
 
 	GameID int `gorm:"not null" json:"game"`
 	Game Game

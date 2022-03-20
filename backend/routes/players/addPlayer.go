@@ -9,16 +9,20 @@ import (
 
 func AddPlayer(ctx *fiber.Ctx) error {
 
-	if err := database.DB.Create(&models.Player{
-		FirstName: ctx.Get("first_name"),
-		LastName: ctx.Get("last_name"),
-		Description: ctx.Get("description"),
-		Instagram: ctx.Get("instagram"),
-	}).Error; err != nil {
+	player :=
+		&models.Player{
+			FirstName: ctx.Get("first_name"),
+			LastName: ctx.Get("last_name"),
+			Description: ctx.Get("description"),
+			Instagram: ctx.Get("instagram"),
+		}
+
+	if err := database.DB.Create(player).Error; err != nil {
 
 		ctx.JSON(map[string]string{"error": err.Error()})
 		return ctx.SendStatus(400)
 	}
 
+	ctx.JSON(player)
 	return ctx.SendStatus(200)
 }

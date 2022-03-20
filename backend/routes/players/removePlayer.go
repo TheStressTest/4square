@@ -20,5 +20,7 @@ func RemovePlayer(ctx *fiber.Ctx) error {
 		ctx.JSON(map[string]string{"error": err.Error()})
 		return ctx.SendStatus(400)
 	}
+
+	ctx.JSON(map[string]string{"id": ctx.Get("id")})
 	return ctx.SendStatus(200)
 }
