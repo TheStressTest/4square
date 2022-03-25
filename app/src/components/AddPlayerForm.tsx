@@ -3,7 +3,6 @@ import {
 	IonHeader,
 	IonToolbar,
 	IonTitle,
-	IonInput,
 	IonItem,
 	IonImg,
 	IonTextarea,
@@ -12,6 +11,7 @@ import {
 import { PlayerProps } from './Player';
 import { Input } from './Input';
 import { Controller, useForm } from 'react-hook-form';
+import { createClient } from '@supabase/supabase-js';
 import React from 'react';
 
 export interface AddPlayerFormProps {
@@ -25,6 +25,11 @@ export function AddPlayerForm({
 	setPlayers,
 	players,
 }: AddPlayerFormProps) {
+	const supabase = createClient(
+		process.env.SUPABASE_URL!,
+		process.env.SUPABASE_ID!
+	);
+
 	const { control, handleSubmit } = useForm({
 		defaultValues: {
 			description: 'No Description',
@@ -33,17 +38,17 @@ export function AddPlayerForm({
 		},
 	});
 
-	const onSubmit = (data: any) => {
-		setPlayers([
-			...players,
-			// {
-			// 	firstName: String(data.firstName),
-			// 	lastName: String(data.lastName),
-			// 	score: 2,
-			// 	description: String(data.description),
-			// } as PlayerProps,
-			data,
-		]);
+	const onSubmit = async (formdata: any) => {
+		let { data, error } = await supabase
+			.from('players')
+			.insert({
+				first_name: formdata.firstName,
+				last_name: formdata.lastName,
+				notes: formdata.description,
+			})
+			.single();
+		console.log(error);
+		setPlayers([...players, formdata]);
 		setModalOpen(false);
 	};
 
@@ -83,7 +88,7 @@ export function AddPlayerForm({
 					<Controller
 						render={({ field: { onChange } }) => (
 							<IonTextarea
-								placeholder="Type description here..."
+								placeholder="Type notes here..."
 								onIonChange={onChange}
 							/>
 						)}
